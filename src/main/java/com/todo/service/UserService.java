@@ -45,16 +45,17 @@ public class UserService {
     public String login(String username, String password, Model model, HttpServletRequest request) {
         final Optional<User> userOptional = userQuery.findByUsernameAndPassword(username, password);
 
-        if (!userOptional.isPresent()){
-            model.addAttribute("message", "Invalid credentials!");
-        } else {
+        if (userOptional.isPresent()) {
             final User user = userOptional.get();
             request.getSession().setAttribute("user", user);
             model.addAttribute("message", "Hi " + user.getUsername() + ", you have successfully logged in!");
             model.addAttribute("todoList", todoQuery.getTodoListByUser(user.getId()));
+
+            return Views.LOGIN_HTML;
         }
 
-        return Views.LOGIN_HTML;
+        model.addAttribute("message", "Invalid credentials!");
+        return Views.LOGOUT_HTML;
     }
 
     public String logout(Model model, HttpServletRequest request) {
