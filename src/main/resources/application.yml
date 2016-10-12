@@ -1,0 +1,37 @@
+---
+### Default Properties
+spring:
+  profiles:
+    active: test
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      naming:
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    show-sql: true
+    database-platform: com.mysql.jdbc.Driver
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+server:
+  port: ${TODO_WEB_APP_PORT:8080}
+hikarids:
+  connectionTimeout: 10000
+  maxPoolSize: 10
+  poolName: hikaridp
+---
+# Test Profile
+spring:
+  profiles: test
+hikarids:
+  jdbcUrl: ${TODO_WEB_APP_DB_URL:jdbc:mysql://localhost:3306/todo}
+  username: ${TODO_WEB_APP_DB_USERNAME:root}
+  password: ${TODO_WEB_APP_DB_PASSWORD:root457}
+---
+# Prod Profile
+spring:
+  profiles: prod
+hikarids:
+  jdbcUrl: ${TODO_WEB_APP_DB_URL}
+  username: ${TODO_WEB_APP_DB_USERNAME}
+  password: ${TODO_WEB_APP_DB_PASSWORD}

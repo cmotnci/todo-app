@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TODO App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<p th:text="${message}"/>
+
+<table>
+    <tr>
+        <th>Todo id</th>
+        <th>Thing to do</th>
+    </tr>
+    <tr th:each="todo : ${todoList}">
+        <td th:text="${todo.id}" bgcolor="#add8e6"></td>
+        <td th:text="${todo.todo}" bgcolor="#add8e6"></td>
+        <td>
+            <div th:switch="${todo.status}">
+                <p th:case="0"> <img src="/time.png"/></p>
+                <p th:case="1"> <img src="/check.png"/></p>
+                <p th:case="2"> <img src="/cross.png"/></p>
+            </div>
+        </td>
+        <td>
+            <form action="/todo/complete" method="POST">
+                <input type="hidden" th:value="${todo.id}" name="id"/>
+                <input type="submit" value="Completed"/>
+            </form>
+        </td>
+        <td>
+            <form action="/todo/cancel" method="POST">
+                <input type="submit" value="Cancel"/>
+                <input type="hidden" th:value="${todo.id}" name="id"/>
+            </form>
+        </td>
+        <td>
+            <form action="/todo/update" method="POST">
+                <input type="submit" value="Update"/>
+                <input type="text" name="todo"/>
+                <input type="hidden" th:value="${todo.id}" name="id"/>
+            </form>
+        </td>
+    </tr>
+</table>
+
+<br/>
+<b>Add new todo</b>
+<form action="/todo/add" method="POST">
+    <input type="text" name="todo"/><br/>
+    <input type="submit" value="Add"/>
+</form>
+
+<br/>
+<b>Logout</b>
+<form action="/user/logout" method="POST">
+    <br/><input type="submit" value="Logout"/>
+</form>
+
+</body>
+
+</html>
